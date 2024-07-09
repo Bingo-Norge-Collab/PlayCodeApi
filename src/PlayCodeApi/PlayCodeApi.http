@@ -1,0 +1,28 @@
+###
+@ExternalSystemApi_HostAddress = https://localhost:5556
+@code = 100001
+
+###
+GET {{ExternalSystemApi_HostAddress}}/playcodes/{{code}}
+Accept: application/json
+
+###
+POST {{ExternalSystemApi_HostAddress}}/playcodes/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+  "amount": 1000
+}
+
+###
+POST {{ExternalSystemApi_HostAddress}}/playcodes/{{code}}/topup
+Accept: application/json
+Content-Type: application/json
+
+{
+  "amount": 250
+}
+
+###
+POST {{ExternalSystemApi_HostAddress}}/playcodes/{{code}}/cashout
