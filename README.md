@@ -4,7 +4,7 @@
 
 This repository contains a sample .NET web API application, demonstrating an implementation of the PlayCode API. The actual endpoints are defined here: 
 
-[https://github.com/Bingo-Norge-Collab/PlayCodeApi/blob/957cd1ec72fba4e3bddfeef1031f733d357b30f8/src/PlayCodeApi/Program.cs#L45](https://github.com/Bingo-Norge-Collab/PlayCodeApi/blob/957cd1ec72fba4e3bddfeef1031f733d357b30f8/src/PlayCodeApi/Program.cs#L45)
+[https://github.com/Bingo-Norge-Collab/PlayCodeApi/blob/957cd1ec72fba4e3bddfeef1031f733d357b30f8/src/PlayCodeApi/Program.cs#L45]
 
 The running application with Swagger can be explored here:
 
