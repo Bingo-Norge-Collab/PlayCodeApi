@@ -17,7 +17,6 @@ It is assumed that your `gameserver` already has the ability to manage `playcode
 The running application with Swagger can be explored here:
 
 https://playcodedemo.development.bingo/swagger/index.html
-(Ignore the privacy error, need to add playcodedemo to the ssl cert..)
 
 You can also download and run the docker image from docker hub: 
 
