@@ -16,23 +16,23 @@ It is assumed that your `gameserver` already has the ability to manage `playcode
 
 The running application with Swagger can be explored here:
 
-https://playcodedemo.development.bingo/swagger/index.html
+- https://playcodedemo.development.bingo/swagger/index.html
 
-You can also download and run the docker image from docker hub: 
+You can also download and run the docker image from [docker hub](https://hub.docker.com/r/egsthomas/playcodedemo/tags): 
 
-https://hub.docker.com/r/egsthomas/playcodedemo/tags
+Pull image and run it locally (requires docker to be installed):
 
-`docker pull egsthomas/playcodedemo:latest`
-`docker run -d -p 80:8080 --name playcodedemo egsthomas/playcodedemo`
-Open url: http://localhost/swagger/index.html
+- `docker pull egsthomas/playcodedemo:latest` 
+- `docker run -d -p 80:8080 --name playcodedemo egsthomas/playcodedemo`
+- Open url: http://localhost/swagger/index.html
 
 You can also download the source code and run the application locally in visual studio:
 
-- Download Visual Studio Community Edition: https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022&source=VSLandingPage&cid=2030&passive=false
-- Open Solution file (https://github.com/Bingo-Norge-Collab/PlayCodeApi/blob/main/src/PlayCodeApi/PlayCodeApi.sln)
+- [Download Visual Studio Community Edition](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022&source=VSLandingPage&cid=2030&passive=false)
+- [Open Solution file](https://github.com/Bingo-Norge-Collab/PlayCodeApi/blob/main/src/PlayCodeApi/PlayCodeApi.sln)
 - Hit F5 (should open https://localhost:5556/swagger/index.html in your main browser)
 
-(may require a separate download of .NET SDK 8.0 - https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+(may require a [separate download of .NET SDK 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0))
 
 ### Great, but what do I do with this?
 
