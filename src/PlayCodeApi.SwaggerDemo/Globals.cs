@@ -1,4 +1,4 @@
-﻿namespace PlayCodeApi;
+﻿namespace PlayCodeApi.SwaggerDemo;
 
 // Represents configuration of your application
 public static class Globals

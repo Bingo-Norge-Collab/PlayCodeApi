@@ -1,6 +1,8 @@
-﻿namespace PlayCodeApi.PlayCodes;
+﻿using System;
 
-public class PlayCode
+namespace PlayCodeApi.Contract.V1;
+
+public class PlayCodeData
 {
     /// <summary>
     /// The unique identifier for this playcode

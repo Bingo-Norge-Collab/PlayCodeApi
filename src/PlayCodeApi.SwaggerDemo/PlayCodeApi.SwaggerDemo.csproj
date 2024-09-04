@@ -13,8 +13,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PlayCodeApi.Application\PlayCodeApi.Application.csproj" />
+      <ProjectReference Include="..\PlayCodeApi.Contract\PlayCodeApi.Contract.csproj" />
+      <ProjectReference Include="..\PlayCodeApi.Domain\PlayCodeApi.Domain.csproj" />
+      <ProjectReference Include="..\PlayCodeApi.Infrastructure\PlayCodeApi.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
