@@ -21,7 +21,7 @@ public class DemoPlayCodeApiHandler : IPlayCodeApiHandler
     }
 
     /// <inheritdoc />
-    public Task<PlayCodeData?> GetPlayCodeAsync(string code)
+    public Task<PlayCodeData?> GetPlayCodeAsync(int systemId, int locationId, string code)
     {
         _playCodes.TryGetValue(code, out var playCode);
         Guard.AgainstNotFound(playCode, code);
@@ -31,7 +31,7 @@ public class DemoPlayCodeApiHandler : IPlayCodeApiHandler
     }
 
     /// <inheritdoc />
-    public Task<PlayCodeData> CreatePlayCodeAsync(decimal amount)
+    public Task<PlayCodeData> CreatePlayCodeAsync(int systemId, int locationId, decimal amount)
     {
         Guard.AgainstInvalidAmount(amount);
         
@@ -43,7 +43,7 @@ public class DemoPlayCodeApiHandler : IPlayCodeApiHandler
     }
     
     /// <inheritdoc />
-    public Task<CashoutResult> CashOutPlayCodeAsync(string code)
+    public Task<CashoutResult> CashOutPlayCodeAsync(int systemId, int locationId, string code)
     {
         _playCodes.TryGetValue(code, out var playCode);
         Guard.AgainstNotFound(playCode, code);
@@ -58,7 +58,7 @@ public class DemoPlayCodeApiHandler : IPlayCodeApiHandler
     }
 
     /// <inheritdoc />
-    public Task<PlayCodeData> TopUpPlayCodeAsync(string code, decimal amount)
+    public Task<PlayCodeData> TopUpPlayCodeAsync(int systemId, int locationId, string code, decimal amount)
     {
         Guard.AgainstInvalidAmount(amount);
 

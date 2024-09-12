@@ -6,9 +6,10 @@ public static class ApiRoutes
     
     public static class PlayCodes
     {
-        public const string Get = Base + "/playcodes/{code}";
-        public const string Purchase = Base + "/playcodes/purchase";
-        public const string TopUp = Base + "/playcodes/{code}/topup";
-        public const string CashOut = Base + "/playcodes/{code}/cashout";
+        public const string PlayCodeBase = Base + "/system/{systemId}/location/{locationId}";
+        public const string Get = PlayCodeBase + "/playcodes/{code}";
+        public const string Purchase = PlayCodeBase + "/playcodes/purchase";
+        public const string TopUp = PlayCodeBase + "/playcodes/{code}/topup";
+        public const string CashOut = PlayCodeBase + "/playcodes/{code}/cashout";
     }
 }

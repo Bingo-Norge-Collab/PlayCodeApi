@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayCodeApi.Domain", "PlayC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayCodeApi.Infrastructure", "PlayCodeApi.Infrastructure\PlayCodeApi.Infrastructure.csproj", "{40AFC65C-DCBB-4DB7-8F2D-2325B66EA2A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayCodeApi.Proxy", "PlayCodeApi.Proxy\PlayCodeApi.Proxy.csproj", "{BF584C21-DA6F-4EB3-917A-44796C98EA87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,5 +42,9 @@ Global
 		{40AFC65C-DCBB-4DB7-8F2D-2325B66EA2A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40AFC65C-DCBB-4DB7-8F2D-2325B66EA2A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40AFC65C-DCBB-4DB7-8F2D-2325B66EA2A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF584C21-DA6F-4EB3-917A-44796C98EA87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF584C21-DA6F-4EB3-917A-44796C98EA87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF584C21-DA6F-4EB3-917A-44796C98EA87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF584C21-DA6F-4EB3-917A-44796C98EA87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

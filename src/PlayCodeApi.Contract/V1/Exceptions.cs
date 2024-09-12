@@ -11,6 +11,9 @@ public class PlayCodeException(string message, HttpStatusCode statusCode) : Exce
 public class PlayCodeNotFoundException(string playCode) 
     : PlayCodeException($"Play code {playCode} not found.", HttpStatusCode.NotFound);
 
+public class SystemNotFoundException(int systemId) 
+    : PlayCodeException($"System with ID={systemId} not found.", HttpStatusCode.NotFound);
+
 public class InvalidAmountException() 
     : PlayCodeException($"Amount should be greater than 0", HttpStatusCode.BadRequest);
 

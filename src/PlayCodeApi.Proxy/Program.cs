@@ -1,9 +1,11 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Diagnostics;
 using PlayCodeApi.Application;
 using PlayCodeApi.Infrastructure;
 using PlayCodeApi.PlayCodes;
-using PlayCodeApi.SwaggerDemo.PlayCodes;
+using PlayCodeApi.Proxy.ApiHandler;
+using PlayCodeApi.Proxy.Config;
+using PlayCodeApi.Proxy.OkBingo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +17,18 @@ builder.Services.AddSwaggerGen(o =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     o.IncludeXmlComments(xmlPath);
 });
+builder.Services.AddHttpClient();
 
-builder.Services.AddSingleton<IPlayCodeApiHandler, DemoPlayCodeApiHandler>();
+var configSection = builder.Configuration.GetSection(nameof(SystemOptions));
+builder.Services.Configure<SystemOptions>(configSection);
+
+builder.Services.AddScoped<IOkBingoService, OkBingoService>();
+builder.Services.AddScoped<IOkBingoApiHandler, OkBingoApiHandler>();
+
+builder.Services.AddScoped<IHttpPlayCodeApiHandler, HttpPlayCodeApiHandler>();
+builder.Services.AddScoped<IPlayCodeApiHandler, ProxyApiHandler>();
 builder.Services.AddPlayCodeApplication();
-    
+
 var app = builder.Build();
 
 app.UseSwagger();
