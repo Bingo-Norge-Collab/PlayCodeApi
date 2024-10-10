@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using PlayCodeApi.Contract.V1;
-using PlayCodeApi.PlayCodes;
 
 namespace PlayCodeApi.Proxy.ApiHandler;
 
@@ -38,16 +37,16 @@ public class HttpPlayCodeApiHandler : IHttpPlayCodeApiHandler
         return Task.CompletedTask;
     }
 
-    public async Task<PlayCodeData?> GetPlayCodeAsync(int systemId, int locationId, string code)
+    public async Task<PlayCodeData?> GetPlayCodeAsync(int systemId, int locationId, string playCode)
     {
         var client = await NewClient();
         var url = ApiRoutes.PlayCodes.Get
             .Replace("{systemId}", systemId.ToString())
             .Replace("{locationId}", locationId.ToString())
-            .Replace("{code}", code);
+            .Replace("{code}", playCode);
 
         var response = await client.GetAsync(url);
-        return await BuildResponse<PlayCodeData>(response);
+        return await BuildResponse<PlayCodeData>(response, systemId, playCode);
     }
 
     public async Task<PlayCodeData> CreatePlayCodeAsync(int systemId, int locationId, decimal amount)
@@ -59,41 +58,41 @@ public class HttpPlayCodeApiHandler : IHttpPlayCodeApiHandler
 
         var body = new PlayCodePurchase(amount);
         var response = await client.PostAsJsonAsync(url, body, _jsonSerializerOptions);
-        return await BuildResponse<PlayCodeData>(response);
+        return await BuildResponse<PlayCodeData>(response, systemId, string.Empty);
     }
 
-    public async Task<CashoutResult> CashOutPlayCodeAsync(int systemId, int locationId, string code)
+    public async Task<CashoutResult> CashOutPlayCodeAsync(int systemId, int locationId, string playCode)
     {
         var client = await NewClient();
         var url = ApiRoutes.PlayCodes.CashOut
             .Replace("{systemId}", systemId.ToString())
             .Replace("{locationId}", locationId.ToString())
-            .Replace("{code}", code);
+            .Replace("{code}", playCode);
 
         var response = await client.PostAsync(url, null);
-        return await BuildResponse<CashoutResult>(response);
+        return await BuildResponse<CashoutResult>(response, systemId, playCode);
     }
 
-    public async Task<PlayCodeData> TopUpPlayCodeAsync(int systemId, int locationId, string code, decimal amount)
+    public async Task<PlayCodeData> TopUpPlayCodeAsync(int systemId, int locationId, string playCode, decimal amount)
     {
         var client = await NewClient();
         var url = ApiRoutes.PlayCodes.TopUp
             .Replace("{systemId}", systemId.ToString())
             .Replace("{locationId}", locationId.ToString())
-            .Replace("{code}", code);
+            .Replace("{code}", playCode);
 
         var body = new PlayCodeTopUp(amount);
         var response = await client.PostAsJsonAsync(url, body, _jsonSerializerOptions);
-        return await BuildResponse<PlayCodeData>(response);
+        return await BuildResponse<PlayCodeData>(response, systemId, playCode);
     }
     
     #region Helpers
 
-    private async Task<T> BuildResponse<T>(HttpResponseMessage response)
+    private async Task<T> BuildResponse<T>(HttpResponseMessage response, int systemId, string code)
         where T : class
     {
         if (response.Content == null)
-            throw new PlayCodeException("Response was null", response.StatusCode);
+            throw new PlayCodeException("Response was null", response.StatusCode, PlayCodeErrorCodes.NoContent, systemId, code);
 
         if (response.IsSuccessStatusCode)
         {
@@ -101,7 +100,7 @@ public class HttpPlayCodeApiHandler : IHttpPlayCodeApiHandler
 
             var data = JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
             if (data == null)
-                throw new PlayCodeException("Failed to deserialize response", response.StatusCode);
+                throw new PlayCodeException("Failed to deserialize response", response.StatusCode, PlayCodeErrorCodes.SerializationIssue, systemId, code);
 
             return data;
         }
@@ -110,10 +109,21 @@ public class HttpPlayCodeApiHandler : IHttpPlayCodeApiHandler
             var json = await response.Content.ReadAsStringAsync();
             var data = JsonSerializer.Deserialize<ProblemDetails>(json, _jsonSerializerOptions);
             if (data != null)
-                throw new PlayCodeException(data.Detail, response.StatusCode);
-        }
+            {
+                var playCode = string.Empty;
+                var playCodeSystemId = 0;
+                var playCodeErrorCode = 0;
 
-        throw new PlayCodeException("Unknown error", response.StatusCode);
+                if (data.Extensions.TryGetValue("playcode", out var sPlayCode)) playCode = sPlayCode.ToString();
+                if (data.Extensions.TryGetValue("playcode-system-id", out var sSystemId)) int.TryParse(sSystemId.ToString(), out playCodeSystemId);
+                if (data.Extensions.TryGetValue("playcode-error-code", out var sErrorCode)) int.TryParse(sErrorCode.ToString(), out playCodeErrorCode);
+                
+                if (playCodeErrorCode > 0)
+                    PlayCodeException.ThrowFromErrorCode(playCodeErrorCode, playCodeSystemId, playCode, data.Detail);
+            }
+            
+            throw new PlayCodeException(data.Detail, response.StatusCode, PlayCodeErrorCodes.UnknownError, systemId, code);
+        }
     }
     
     #endregion

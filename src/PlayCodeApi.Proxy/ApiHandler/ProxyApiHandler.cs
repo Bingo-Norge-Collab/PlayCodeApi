@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using PlayCodeApi.Application;
 using PlayCodeApi.Contract.V1;
-using PlayCodeApi.PlayCodes;
 using PlayCodeApi.Proxy.Config;
 using PlayCodeApi.Proxy.Exceptions;
 using PlayCodeApi.Proxy.OkBingo;
@@ -57,7 +56,7 @@ public class ProxyApiHandler : IPlayCodeApiHandler
     {
         var systemConfig = _options.Value.Systems.SingleOrDefault(s => s.SystemId == systemId);
         if (systemConfig == null)
-            throw new SystemNotFoundException(systemId);
+            throw new SystemNotFoundException(systemId, string.Empty);
         return systemConfig;
     }
     

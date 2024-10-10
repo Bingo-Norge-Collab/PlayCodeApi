@@ -11,6 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\PlayCodeApi.Contract\PlayCodeApi.Contract.csproj" />
       <ProjectReference Include="..\PlayCodeApi.Domain\PlayCodeApi.Domain.csproj" />
     </ItemGroup>

@@ -12,6 +12,7 @@ public interface IPlayCodeApiHandler
     /// <param name="code">The unique code for this playcode</param>
     /// <returns>PlayCode object</returns>
     /// <throws>PlayCodeNotFoundException</throws>
+    /// <throws>PlayCodeInUseException</throws>
     Task<PlayCodeData?> GetPlayCodeAsync(int systemId, int locationId, string code);
     
     /// <summary>
@@ -33,6 +34,7 @@ public interface IPlayCodeApiHandler
     /// <returns>Result of operation. Contains playcode and amount that was cashed out</returns>
     /// <throws>PlayCodeNotFoundException</throws>
     /// <throws>PlayCodeAlreadyCashedOutException</throws>
+    /// <throws>PlayCodeInUseException</throws>
     Task<CashoutResult> CashOutPlayCodeAsync(int systemId, int locationId, string code);
 
     /// <summary>
@@ -47,5 +49,6 @@ public interface IPlayCodeApiHandler
     /// <throws>PlayCodeNotFoundException</throws>
     /// <throws>PlayCodeAlreadyCashedOutException</throws>
     /// <throws>PlayCodeExpiredException</throws>
+    /// <throws>PlayCodeInUseException</throws>
     Task<PlayCodeData> TopUpPlayCodeAsync(int systemId, int locationId, string code, decimal amount);
 }

@@ -88,9 +88,6 @@ public class OkBingoService : IOkBingoService
         
         if (receipt == null)
             throw new OkBingoException($"Did not receive receipt for command {cmd.ComandID} (ID={cmd.ComID})");
-        
-        if (receipt.ErrorNumber != 0)
-            throw new OkBingoException($"Failed to execute command ({cmd.ComandID}) (ID={{cmd.ComID}}): {receipt.ErrorNumber}: {receipt.ErrorText}");
 
         return receipt;
     }
@@ -134,7 +131,7 @@ public class OkBingoService : IOkBingoService
             Kr = string.IsNullOrWhiteSpace(amount) ? 0 : decimal.Parse(amount),
             NewSaldo = string.IsNullOrWhiteSpace(newSaldo) ? 0 : decimal.Parse(newSaldo),
             ExpirationDate = string.IsNullOrWhiteSpace(expirationDate) ? DateTime.MaxValue : DateTime.Parse(expirationDate),
-            ErrorNumber = string.IsNullOrWhiteSpace(errorNumber) ? 0 : int.Parse(errorNumber),
+            StatusCode = string.IsNullOrWhiteSpace(errorNumber) ? OkBingoStatusCode.Success : (OkBingoStatusCode)int.Parse(errorNumber),
             ErrorText = errorText,
         };
     }

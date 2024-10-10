@@ -7,6 +7,6 @@ public class OkBingoReceipt
     public decimal Kr { get; set; }
     public decimal NewSaldo { get; set; }
     public DateTime ExpirationDate { get; set; }
-    public int ErrorNumber { get; set; }
+    public OkBingoStatusCode StatusCode { get; set; }
     public string ErrorText { get; set; } = string.Empty;
 }
