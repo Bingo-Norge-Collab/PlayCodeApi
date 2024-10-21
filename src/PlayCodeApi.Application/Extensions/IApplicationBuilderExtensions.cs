@@ -18,9 +18,11 @@ public static class ApplicationBuilderExtensions
             {
                 var ex = context.Features.Get<IExceptionHandlerPathFeature>();
                 var extensions = new Dictionary<string, object>();
+                var statusCode = context.Response.StatusCode;
 
                 if (ex.Error is PlayCodeException playCodeException)
                 {
+                    statusCode = (int)playCodeException.StatusCode;
                     extensions["playcode"] = playCodeException.PlayCode;
                     extensions["playcode-system-id"] = playCodeException.SystemId;
                     extensions["playcode-error-code"] = playCodeException.ErrorCode;
@@ -28,8 +30,8 @@ public static class ApplicationBuilderExtensions
                 
                 var problemDetails = new ProblemDetails
                 {
-                    Status = context.Response.StatusCode,
-                    Title = ReasonPhrases.GetReasonPhrase(context.Response.StatusCode),
+                    Status = statusCode,
+                    Title = ReasonPhrases.GetReasonPhrase(statusCode),
                     Detail = ex.Error.Message,
                     Extensions = extensions!
                 };
