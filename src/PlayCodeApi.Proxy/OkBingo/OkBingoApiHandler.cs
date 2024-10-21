@@ -26,6 +26,8 @@ public class OkBingoApiHandler : IOkBingoApiHandler
     public async Task<PlayCodeData?> GetPlayCodeAsync(int systemId, int locationId, string code)
     {
         var receipt = await _okBingoService.GetSaldoOnTicketAsync(systemId, locationId, code);
+        HandleErrorCode(receipt, systemId, string.Empty);
+        
         return GetPlayCodeData(receipt);
     }
 
@@ -35,6 +37,38 @@ public class OkBingoApiHandler : IOkBingoApiHandler
         HandleErrorCode(receipt, systemId, string.Empty);
         
         return GetPlayCodeData(receipt);
+    }
+
+    public async Task<CashoutResult> CashOutPlayCodeAsync(int systemId, int locationId, string code)
+    {
+        var receipt = await _okBingoService.CloseTicketAsync(systemId, locationId, code);
+        HandleErrorCode(receipt, systemId, string.Empty);
+        var data = GetPlayCodeData(receipt);
+
+        // For close ticket receipt, the remaining amount is stored in the Kr field
+        return new CashoutResult(receipt.Kr, data);
+    }
+
+    public async Task<PlayCodeData> TopUpPlayCodeAsync(int systemId, int locationId, string code, decimal amount)
+    {
+        var receipt = await _okBingoService.AddToTicketAsync(systemId, locationId, amount, code);
+        HandleErrorCode(receipt, systemId, string.Empty);
+        
+        return GetPlayCodeData(receipt);
+    }
+
+    #region Helpers
+
+    private PlayCodeData GetPlayCodeData(OkBingoReceipt receipt)
+    {
+        return new PlayCodeData
+        {
+            Id = receipt.TicketNumber,
+            Amount = receipt.NewSaldo,
+            ValidUntil = receipt.ExpirationDate,
+            Currency = "NOK",
+            IsCashedOut = receipt.NewSaldo == 0
+        };
     }
 
     private void HandleErrorCode(OkBingoReceipt receipt, int systemId, string code)
@@ -78,32 +112,5 @@ public class OkBingoApiHandler : IOkBingoApiHandler
         }
     }
 
-    public async Task<CashoutResult> CashOutPlayCodeAsync(int systemId, int locationId, string code)
-    {
-        var receipt = await _okBingoService.CloseTicketAsync(systemId, locationId, code);
-        var data = GetPlayCodeData(receipt);
-        
-        // For close ticket receipt, the remaining amount is stored in the Kr field
-        return new CashoutResult(receipt.Kr, data);
-    }
-
-    public async Task<PlayCodeData> TopUpPlayCodeAsync(int systemId, int locationId, string code, decimal amount)
-    {
-        var receipt = await _okBingoService.AddToTicketAsync(systemId, locationId, amount, code);
-        return GetPlayCodeData(receipt);
-    }
-
-    #region Helpers
-    private PlayCodeData GetPlayCodeData(OkBingoReceipt receipt)
-    {
-        return new PlayCodeData
-        {
-            Id = receipt.TicketNumber,
-            Amount = receipt.NewSaldo,
-            ValidUntil = receipt.ExpirationDate,
-            Currency = "NOK",
-            IsCashedOut = receipt.NewSaldo == 0
-        };
-    }
     #endregion
 }
