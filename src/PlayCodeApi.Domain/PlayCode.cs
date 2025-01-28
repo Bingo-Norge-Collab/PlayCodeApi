@@ -5,7 +5,7 @@ public class PlayCode
     /// <summary>
     /// The unique identifier for this playcode
     /// </summary>
-    public int Id { get; set; }
+    public string Id { get; set; } = null!;
 
     /// <summary>
     /// Future proofing for multi-currency support

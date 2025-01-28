@@ -21,7 +21,7 @@ public static class ApplicationBuilderExtensions
                 var statusCode = context.Response.StatusCode;
 
                 if (ex.Error is PlayCodeException playCodeException)
-                {
+                { 
                     statusCode = (int)playCodeException.StatusCode;
                     extensions["playcode"] = playCodeException.PlayCode;
                     extensions["playcode-system-id"] = playCodeException.SystemId;

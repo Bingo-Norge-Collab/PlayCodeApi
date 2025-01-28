@@ -34,8 +34,8 @@ public class DemoPlayCodeApiHandler : IPlayCodeApiHandler
     {
         Guard.AgainstInvalidAmount(amount, systemId, string.Empty);
         
-        var playCode = new PlayCode() { Id = _nextId++, Amount = amount, ValidUntil = DateTime.Now + Globals.PlayCodeDuration };
-        _playCodes.Add(playCode.Id.ToString(), playCode);
+        var playCode = new PlayCode() { Id = $"{_nextId++}", Amount = amount, ValidUntil = DateTime.Now + Globals.PlayCodeDuration };
+        _playCodes.Add(playCode.Id, playCode);
         
         var data = _mapper.Map<PlayCodeData>(playCode);
         return Task.FromResult(data);

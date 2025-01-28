@@ -67,7 +67,7 @@ public class OkBingoApiHandler : IOkBingoApiHandler
             Amount = receipt.NewSaldo,
             ValidUntil = receipt.ExpirationDate,
             Currency = "NOK",
-            IsCashedOut = receipt.NewSaldo == 0
+            //IsCashedOut = receipt.NewSaldo == 0 // This is wrong
         };
     }
 

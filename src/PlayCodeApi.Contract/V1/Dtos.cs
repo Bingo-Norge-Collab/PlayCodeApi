@@ -7,7 +7,7 @@ public class PlayCodeData
     /// <summary>
     /// The unique identifier for this playcode
     /// </summary>
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Future proofing for multi-currency support

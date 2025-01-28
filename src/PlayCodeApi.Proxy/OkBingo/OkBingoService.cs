@@ -25,7 +25,7 @@ public class OkBingoService : IOkBingoService
         string ticketNumber = "", bool print = false)
     {
         var cmd = OkBingoCommand.Create(locationId, systemId, OkBingoCommandCode.MakeTicket, 
-            MessageNumber++, ticketNumber, amount, print);
+            MessageNumber++, ticketNumber, amount, true);
         
         var receipt = await SendCommand(cmd, OkBingoCommandCode.ReceiptMakeTicket);
         return receipt;
@@ -35,7 +35,7 @@ public class OkBingoService : IOkBingoService
         string ticketNumber, bool print = false)
     {
         var cmd = OkBingoCommand.Create(locationId, systemId, OkBingoCommandCode.AddToTicket, 
-            MessageNumber++, ticketNumber, amount, print);
+            MessageNumber++, ticketNumber, amount, true);
         
         var receipt = await SendCommand(cmd, OkBingoCommandCode.ReceiptAddToTicket);
         return receipt;
@@ -45,7 +45,7 @@ public class OkBingoService : IOkBingoService
         string ticketNumber, bool print = false)
     {
         var cmd = OkBingoCommand.Create(locationId, systemId, OkBingoCommandCode.CloseTickete, 
-            MessageNumber++, ticketNumber, 0, print);
+            MessageNumber++, ticketNumber, 0, true);
         
         var receipt = await SendCommand(cmd, OkBingoCommandCode.ReceiptCloseTickete);
         return receipt;
@@ -127,7 +127,7 @@ public class OkBingoService : IOkBingoService
         return new OkBingoReceipt()
         {
             UniqueIdentifier = string.IsNullOrWhiteSpace(uniqueIdentifier) ? 0 : int.Parse(uniqueIdentifier),
-            TicketNumber = string.IsNullOrWhiteSpace(ticketNumber) ? 0 : int.Parse(ticketNumber),
+            TicketNumber = ticketNumber,
             Kr = string.IsNullOrWhiteSpace(amount) ? 0 : decimal.Parse(amount),
             NewSaldo = string.IsNullOrWhiteSpace(newSaldo) ? 0 : decimal.Parse(newSaldo),
             ExpirationDate = string.IsNullOrWhiteSpace(expirationDate) ? DateTime.MaxValue : DateTime.Parse(expirationDate),
